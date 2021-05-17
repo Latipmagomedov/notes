@@ -522,7 +522,7 @@ header.header {
 
 .tasks__task-subtasks {
   margin-top: 36px;
-  // display: none;
+  display: none;
 }
 
 .tasks__task-subtasks-open {

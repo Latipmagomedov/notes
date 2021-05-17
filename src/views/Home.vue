@@ -6,7 +6,11 @@
         <div class="container">
           <h2 class="tasks__title" id="status-1">Все задачи</h2>
           <div class="tasks__wrapper" id="tasks">
-            <div class="tasks__task">
+            <div
+              class="tasks__task"
+              v-for="(task, index) in tasks"
+              :key="index"
+            >
               <div class="confirm" id="tasks-confirm">
                 <div class="confirm-content">
                   <p>Вы уверены ?</p>
@@ -19,27 +23,32 @@
 
               <div class="tasks__task-header">
                 <input type="checkbox" id="task-1" class="completed" />
-                <button class="tasks__remove">+</button>
+                <button class="tasks__remove" @click="removeTask(index)">
+                  +
+                </button>
               </div>
-              <h2 class="tasks__task-title">Хлеб</h2>
+              <h2 class="tasks__task-title">{{ task.title }}</h2>
               <div class="tasks__task-open">
-                <div class="tasks__task-open-btn" id="open-subtasks">
+                <div
+                  class="tasks__task-open-btn"
+                  id="open-subtasks"
+                  @click="subTaskOpen(index)"
+                >
                   <p>Раскрыть</p>
                   <img src="@/assets/icons/arrow.svg" alt="arrow" />
                 </div>
-                <div class="tasks__task-date">2021-05-15 13:16</div>
+
+                <div class="tasks__task-date">
+                  {{ task.date }} {{ task.time }}
+                </div>
               </div>
               <div class="tasks__task-subtasks" id="subtasks">
-                <div class="tasks__task-subtask">
-                  <p>вавыа</p>
-                  <input type="checkbox" class="completed" />
-                </div>
-                <div class="tasks__task-subtask">
-                  <p>вавыа</p>
-                  <input type="checkbox" class="completed" />
-                </div>
-                <div class="tasks__task-subtask">
-                  <p>вавыа</p>
+                <div
+                  class="tasks__task-subtask"
+                  v-for="(subTask, index) in task.subTasks"
+                  :key="index"
+                >
+                  <p>{{ subTask }}</p>
                   <input type="checkbox" class="completed" />
                 </div>
               </div>
@@ -65,7 +74,27 @@ export default {
     AddNoteBtn,
   },
   data() {
-    return {};
+    return {
+      tasks: JSON.parse(localStorage.tasks),
+      subTasksOpen: null,
+    };
+  },
+  created() {
+    this.tasks.forEach((item, index) => {
+      this.subTasksOpen.push(false);
+    });
+    console.log(this.subTasksOpen);
+  },
+  methods: {
+    removeTask(index) {
+      this.tasks.splice(index, 1);
+      localStorage.tasks = JSON.stringify(this.tasks);
+    },
+    subTaskOpen(index) {
+      let subTasksWrapper = document.querySelectorAll(".tasks__task-subtasks");
+      subTasksWrapper[index].classList.toggle("tasks__task-subtasks-open")
+      // this.subTasksOpen = index;
+    },
   },
 };
 </script>

@@ -71,6 +71,10 @@ export default {
       subTasksInp: [],
     };
   },
+  mounted() {
+    this.tasks = JSON.parse(localStorage.tasks);
+    console.log(this.tasks);
+  },
   methods: {
     addSubTaskInp() {
       this.subTasksInp.push("");
