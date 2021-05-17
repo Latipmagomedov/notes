@@ -85,7 +85,17 @@ export default {
         this.task.subTasks.push(item);
         this.task.completedSubTasks.push(false);
       });
-      this.tasks.push(this.task);
+
+      this.tasks.push({
+        title: this.task.title,
+        date: this.task.date,
+        time: this.task.time,
+        completed: this.task.completed,
+        subTasks: this.task.subTasks,
+        completedSubTasks: this.task.completedSubTasks,
+      });
+
+      localStorage.tasks = JSON.stringify(this.tasks);
 
       console.log(this.tasks);
     },
