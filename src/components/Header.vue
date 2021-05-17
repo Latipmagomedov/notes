@@ -6,6 +6,8 @@
           type="text"
           class="header__search-inp"
           placeholder="Поиск задач"
+          v-model="search"
+          @input="searchTodo"
         />
         <button class="header__search-icon" id="voice-search"></button>
       </div>
@@ -21,7 +23,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      search: "",
+    };
+  },
+  methods: {
+    searchTodo() {
+      this.$store.state.searchInp = this.search;
+    },
+  },
+};
 </script>
 
 <style>

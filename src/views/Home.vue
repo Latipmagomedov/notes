@@ -30,7 +30,18 @@
               <h2 class="tasks__task-title">{{ task.title }}</h2>
               <div class="tasks__task-open">
                 <div
+                  v-if="subTasksOpen != index"
                   class="tasks__task-open-btn"
+                  id="open-subtasks"
+                  @click="subTaskOpen(index)"
+                >
+                  <p>Раскрыть</p>
+                  <img src="@/assets/icons/arrow.svg" alt="arrow" />
+                </div>
+
+                <div
+                  v-else
+                  class="tasks__task-open-btn tasks__task-open-btn-active"
                   id="open-subtasks"
                   @click="subTaskOpen(index)"
                 >
@@ -42,7 +53,11 @@
                   {{ task.date }} {{ task.time }}
                 </div>
               </div>
-              <div class="tasks__task-subtasks" id="subtasks">
+              <div
+                class="tasks__task-subtasks"
+                id="subtasks"
+                v-if="subTasksOpen == index"
+              >
                 <div
                   class="tasks__task-subtask"
                   v-for="(subTask, index) in task.subTasks"
@@ -79,11 +94,15 @@ export default {
       subTasksOpen: null,
     };
   },
-  created() {
-    this.tasks.forEach((item, index) => {
-      this.subTasksOpen.push(false);
-    });
-    console.log(this.subTasksOpen);
+  computed: {
+    search() {
+      return this.$store.getters.search;
+    },
+  },
+  watch: {
+    search() {
+      console.log(this.search);
+    }
   },
   methods: {
     removeTask(index) {
@@ -91,9 +110,7 @@ export default {
       localStorage.tasks = JSON.stringify(this.tasks);
     },
     subTaskOpen(index) {
-      let subTasksWrapper = document.querySelectorAll(".tasks__task-subtasks");
-      subTasksWrapper[index].classList.toggle("tasks__task-subtasks-open")
-      // this.subTasksOpen = index;
+      this.subTasksOpen = this.subTasksOpen === index ? null : index;
     },
   },
 };
