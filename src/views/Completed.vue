@@ -1,15 +1,14 @@
 <template>
-  <div class="home-view">
+  <div class="completed-view">
     <Header />
     <main>
       <section class="tasks">
         <div class="container">
-          <h2 class="tasks__title" id="status-1">Все задачи</h2>
-          <div class="tasks__wrapper" id="tasks"></div>
+          <h2 class="tasks__title" id="status-2">Выполненные задачи</h2>
+          <div class="tasks__wrapper" id="past-tasks"></div>
         </div>
       </section>
     </main>
-
     <AddNoteBtn />
   </div>
 </template>
@@ -30,3 +29,6 @@ export default {
   },
 };
 </script>
+
+<style>
+</style>

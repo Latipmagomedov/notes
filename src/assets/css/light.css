@@ -1,20 +1,20 @@
-<template>
-  <div id="app">
-    <router-view />
-  </div>
-</template>
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v7.0.29,
+* Autoprefixer: v9.7.6
+* Browsers: last 4 version
+*/
 
-<style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
 :root {
-  --bg: #0a0a0a;
-  --element-bg: rgba(255, 255, 255, 0.03);
+  --bg: #D1D3D4;
+  --element-bg: #ffffff;
   --message-error-bg: #1a1a1aef;
   --subinp-bg: rgba(255, 255, 255, 0.137);
   --active-bg: #1771f1;
   --remove-bg: #ff5555;
-  --color: #fff;
-  --transparent-color: rgba(255, 255, 255, 0.35);
+  --color: rgb(24, 24, 24);
+  --transparent-color: rgb(0, 0, 0);
 }
 
 * {
@@ -47,7 +47,7 @@ button {
 
 input {
   background: var(--element-bg);
-  color: #fff;
+  color: var(--transparent-color);
   height: 50px;
   padding-left: 18px;
   font-size: 13px;
@@ -167,6 +167,7 @@ a {
   padding: 20px 45px;
   text-align: center;
   background-color: var(--message-error-bg);
+  color: #fff;
   border: 1px solid #ffffff83;
   -webkit-box-shadow: 0px 0px 10px #ffffff10;
   box-shadow: 0px 0px 10px #ffffff10;
@@ -202,7 +203,7 @@ header.header {
   width: 40px;
   height: 40px;
   background-color: transparent;
-  background-image: url(assets/icons/search-icon.svg);
+  background-image: url(../icons/microphone-light-mode.svg);
   background-repeat: no-repeat;
   background-size: 65%;
   background-position: center;
@@ -221,16 +222,12 @@ header.header {
 }
 
 .header__tab {
-  width: 100%;
+  width: 50%;
   height: 45px;
   background: var(--element-bg);
-  color: #fff;
   border-radius: 0;
   font-size: 13px;
   font-weight: 500;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .header__tab:first-child {
@@ -239,10 +236,6 @@ header.header {
 
 .header__tab:last-child {
   border-radius: 0 12px 12px 0;
-}
-
-.header__tab.router-link-exact-active {
-  background: var(--active-bg);
 }
 
 .header__tab-active {
@@ -257,6 +250,7 @@ header.header {
   height: 100vh;
   min-height: 600px;
   background: var(--bg);
+  display: none;
 }
 
 .add-task-open {
@@ -571,6 +565,7 @@ footer {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  color: #fff;
   -webkit-transition: 0.3s;
   -o-transition: 0.3s;
   transition: 0.3s;
@@ -582,4 +577,3 @@ footer {
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-</style>
