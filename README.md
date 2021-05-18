@@ -1,3 +1,5 @@
+<h1>Web, Pwa - Приложение планировщик</h1>
+<h2>Технологии разработки: Figma, HTML, SCSS, VUE JS</h2>
 # notes
 
 ## Project setup
