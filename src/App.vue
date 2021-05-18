@@ -442,6 +442,10 @@ header.header {
 .tasks__task-header a img {
   margin-right: 5px;
 }
+.completedBtn {
+  padding: 4px 7px;
+  border-radius: 5px;
+}
 
 .tasks__remove {
   width: 30px;

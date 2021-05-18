@@ -72,8 +72,9 @@ export default {
     };
   },
   mounted() {
-    this.tasks = JSON.parse(localStorage.tasks);
-    console.log(this.tasks);
+    if (localStorage.tasks) {
+      this.tasks = JSON.parse(localStorage.tasks);
+    }
   },
   methods: {
     addSubTaskInp() {
@@ -83,6 +84,7 @@ export default {
       this.subTasksInp.splice(index, 1);
     },
     addTask() {
+      if(!this.task.title || this.task.title == " ") return
       this.task.subTasks = [];
       this.task.completedSubTasks = [];
       this.subTasksInp.forEach((item) => {
@@ -100,6 +102,7 @@ export default {
       });
 
       localStorage.tasks = JSON.stringify(this.tasks);
+      this.$router.push("/");
 
       console.log(this.tasks);
     },

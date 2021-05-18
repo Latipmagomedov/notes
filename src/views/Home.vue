@@ -1,5 +1,10 @@
 <template>
   <div class="home-view">
+    <div class="message-error" :class="errorActive">
+      <div class="message-error__message">
+        <p>Что бы отметить задачу, нужно сначала отметить все подзадачи</p>
+      </div>
+    </div>
     <Header />
     <main>
       <section class="tasks">
@@ -11,18 +16,11 @@
               v-for="(task, index) in tasks"
               :key="index"
             >
-              <div class="confirm" id="tasks-confirm">
-                <div class="confirm-content">
-                  <p>Вы уверены ?</p>
-                  <div class="confirm-btns">
-                    <button>Нет</button>
-                    <button>Да</button>
-                  </div>
-                </div>
-              </div>
-
               <div class="tasks__task-header">
-                <input type="checkbox" id="task-1" class="completed" />
+                <button class="completedBtn" @click="completedTask(index)">
+                  Выполнить
+                </button>
+
                 <button class="tasks__remove" @click="removeTask(index)">
                   +
                 </button>
@@ -60,11 +58,24 @@
               >
                 <div
                   class="tasks__task-subtask"
-                  v-for="(subTask, index) in task.subTasks"
-                  :key="index"
+                  v-for="(subTask, i) in task.subTasks"
+                  :key="i"
                 >
                   <p>{{ subTask }}</p>
-                  <input type="checkbox" class="completed" />
+                  <input
+                    v-if="task.completedSubTasks[i]"
+                    type="checkbox"
+                    checked
+                    class="completed completed-sub-task"
+                    @click="completedSubTask(index, i)"
+                  />
+
+                  <input
+                    v-if="!task.completedSubTasks[i]"
+                    type="checkbox"
+                    class="completed completed-sub-task"
+                    @click="completedSubTask(index, i)"
+                  />
                 </div>
               </div>
             </div>
@@ -90,8 +101,10 @@ export default {
   },
   data() {
     return {
-      tasks: JSON.parse(localStorage.tasks),
+      tasks: [],
       subTasksOpen: null,
+      completedTasks: [],
+      errorActive: "",
     };
   },
   computed: {
@@ -101,7 +114,26 @@ export default {
   },
   watch: {
     search() {
-      console.log(this.search);
+      let taskItem = document.querySelectorAll(".tasks__task");
+      this.tasks.forEach((item, index) => {
+        if (
+          item.title.toUpperCase().indexOf(this.search.toUpperCase()) > -1 ||
+          item.date.toUpperCase().indexOf(this.search.toUpperCase()) > -1 ||
+          item.time.toUpperCase().indexOf(this.search.toUpperCase()) > -1
+        ) {
+          taskItem[index].style.display = "";
+        } else {
+          taskItem[index].style.display = "none";
+        }
+      });
+    },
+  },
+  mounted() {
+    if (localStorage.tasks) {
+      this.tasks = JSON.parse(localStorage.tasks);
+    }
+    if (localStorage.completedTasks) {
+      this.completedTasks = JSON.parse(localStorage.completedTasks);
     }
   },
   methods: {
@@ -111,6 +143,25 @@ export default {
     },
     subTaskOpen(index) {
       this.subTasksOpen = this.subTasksOpen === index ? null : index;
+    },
+    completedSubTask(index, i) {
+      this.tasks[index].completedSubTasks[i] = !this.tasks[index]
+        .completedSubTasks[i];
+      localStorage.tasks = JSON.stringify(this.tasks);
+    },
+    completedTask(index) {
+      if (this.tasks[index].completedSubTasks.every((elem) => elem == true)) {
+        this.completedTasks.push(this.tasks[index]);
+        this.tasks.splice(index, 1);
+        localStorage.completedTasks = JSON.stringify(this.completedTasks);
+        localStorage.tasks = JSON.stringify(this.tasks);
+        this.errorActive = "";
+      } else {
+        this.errorActive = "message-error_active";
+        setTimeout(() => {
+          this.errorActive = "";
+        }, 3000);
+      }
     },
   },
 };
